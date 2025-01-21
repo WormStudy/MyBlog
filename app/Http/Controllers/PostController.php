@@ -38,7 +38,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //validate form
-        $this->validate($request, [
+        $request->validate([
             'image'     => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'title'     => 'required|min:5',
             'content'   => 'required|min:10'
@@ -58,6 +58,7 @@ class PostController extends Controller
         //redirect to index
         return redirect()->route('posts.index')->with(['success' => 'Data Berhasil Disimpan!']);
     }
+
 
     public function edit(Post $post)
     {
@@ -108,5 +109,17 @@ class PostController extends Controller
 
         //redirect to index
         return redirect()->route('posts.index')->with(['success' => 'Data Berhasil Diubah!']);
+    }
+
+    public function destroy(Post $post)
+    {
+        //delete image
+        Storage::delete('public/posts/'. $post->image);
+
+        //delete post
+        $post->delete();
+
+        //redirect to index
+        return redirect()->route('posts.index')->with(['success' => 'Data Berhasil Dihapus!']);
     }
 }
