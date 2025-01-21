@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {    
@@ -73,8 +74,8 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         //validate form
-        $this->validate($request, [
-            'image'     => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        $request->validate([
+            'image'     => 'image|mimes:jpeg,png,jpg,gif,svg|max:5000',
             'title'     => 'required|min:5',
             'content'   => 'required|min:10'
         ]);
